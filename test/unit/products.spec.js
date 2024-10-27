@@ -1,6 +1,7 @@
 const productController = require("../../controller/product");
 const productModel = require("../../models/Product");
 const httpMocks = require("node-mocks-http");
+
 productModel.create = jest.fn();
 
 const newProduct = {
@@ -28,5 +29,11 @@ describe("Product Controller Create", () => {
   it("should call productModel.create", () => {
     productController.createProduct(req, res, next);
     expect(productModel.create).toBeCalledWith(newProduct);
+  });
+
+  it("should return 201 response code", () => {
+    productController.createProduct(req, res, next);
+    expect(res.statusCode).toBe(201);
+    expect(res._isEndCalled()).toBeTruthy();
   });
 });
