@@ -5,6 +5,6 @@ exports.hello = (req, res) => {
   res.send("Hello world");
 };
 
-exports.createProduct = (req, res) => {
-  productModel.create();
+exports.createProduct = (req, res, next) => {
+  productModel.create(req.body);
 };
