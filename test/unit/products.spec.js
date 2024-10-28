@@ -3,6 +3,7 @@ const productModel = require("../../models/Product");
 const httpMocks = require("node-mocks-http");
 
 productModel.create = jest.fn();
+productModel.find = jest.fn();
 
 const newProduct = {
   name: "Glove",
@@ -55,5 +56,9 @@ describe("Product Controller Create", () => {
 describe("Product Controller Get", () => {
   it("should have a getProducts function", () => {
     expect(typeof productController.getProducts).toBe("function");
+  });
+  it("should call ProductModel.find({})", async () => {
+    await productController.getProducts(req, res, next);
+    expect(productModel.find).toHaveBeenCalledWith({});
   });
 });
