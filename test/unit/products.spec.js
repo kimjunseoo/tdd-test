@@ -5,6 +5,7 @@ const httpMocks = require("node-mocks-http");
 productModel.create = jest.fn();
 productModel.find = jest.fn();
 productModel.findById = jest.fn();
+productModel.findByIdAndUpdate = jest.fn();
 
 const newProduct = {
   name: "Glove",
@@ -133,5 +134,21 @@ describe("Product Controller GetById", () => {
 describe("Product Controller Update", () => {
   it("should have an updateProduct function", () => {
     expect(typeof productController.updateProduct).toBe("function");
+  });
+  it("should call productModel.findByIdAndUpdate", async () => {
+    req.params.productId = productId;
+    req.body = {
+      name: "updatedName",
+      description: "updatedDesc",
+    };
+
+    await productController.updateProduct(req, res, next);
+    expect(productModel.findByIdAndUpdate).toHaveBeenCalledWith(
+      productId,
+      req.body,
+      {
+        new: true,
+      }
+    );
   });
 });
