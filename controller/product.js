@@ -14,5 +14,11 @@ exports.createProduct = async (req, res, next) => {
 };
 
 exports.getProducts = async (req, res, next) => {
-  await productModel.find({});
+  try {
+    const allProducts = await productModel.find({});
+
+    res.status(200).json(allProducts);
+  } catch (error) {
+    next(error);
+  }
 };
