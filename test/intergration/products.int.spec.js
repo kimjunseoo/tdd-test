@@ -26,3 +26,11 @@ it("should return 500 on /api/products", async () => {
       "Product validation failed: description: Path `description` is required.",
   });
 });
+
+it("GET /api/product", async () => {
+  const response = await request(app).get("/api/product");
+  expect(response.statusCode).toBe(200);
+  expect(Array.isArray(response.body)).toBeTruthy();
+  expect(response.body[0].name).toBeDefined();
+  expect(response.body[0].description).toBeDefined();
+});
