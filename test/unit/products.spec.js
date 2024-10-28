@@ -151,4 +151,32 @@ describe("Product Controller Update", () => {
       }
     );
   });
+
+  it("should return json body and response code 200", async () => {
+    req.params.productId = productId;
+    req.body = {
+      name: "updatedName",
+      description: "updatedDesc",
+    };
+    productModel.findByIdAndUpdate.mockReturnValue(req.body);
+    await productController.updateProduct(req, res, next);
+    expect(res.statusCode).toBe(201);
+    expect(res._isEndCalled()).toBeTruthy();
+    expect(res._getJSONData()).toStrictEqual(req.body);
+  });
+
+  it("should handle 404 when item doesnt exist", async () => {
+    productModel.findByIdAndUpdate.mockReturnValue(null);
+    await productController.updateProduct(req, res, next);
+    expect(res.statusCode).toBe(404);
+    expect(res._isEndCalled()).toBeTruthy();
+  });
+
+  it("should handle error", async () => {
+    const errorMessage = { message: "Error" };
+    const rejectPromise = Promise.reject(errorMessage);
+    productModel.findByIdAndUpdate.mockReturnValue(rejectPromise);
+    await productController.updateProduct(req, res, next);
+    expect(next).toHaveBeenCalledWith(errorMessage);
+  });
 });
