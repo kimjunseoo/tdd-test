@@ -7,6 +7,8 @@ let newProductData = {
   price: 999,
 };
 
+let firstProduct;
+
 it("POST /api/products", async () => {
   const response = await request(app).post("/api/product").send(newProductData);
 
@@ -33,4 +35,12 @@ it("GET /api/product", async () => {
   expect(Array.isArray(response.body)).toBeTruthy();
   expect(response.body[0].name).toBeDefined();
   expect(response.body[0].description).toBeDefined();
+  firstProduct = response.body[0];
+});
+
+it("Get /api/product/:productId", async () => {
+  const response = await request(app).get("/api/product/" + firstProduct._id);
+  expect(response.statusCode).toBe(200);
+  expect(response.body.name).toBe(firstProduct.name);
+  expect(response.body.description).toBe(firstProduct.description);
 });
