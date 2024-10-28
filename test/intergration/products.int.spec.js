@@ -51,3 +51,18 @@ it("Get id doesnt exist /api/product/:productId", async () => {
   );
   expect(response.statusCode).toBe(404);
 });
+
+it("PUT /api/products/:productId", async () => {
+  const res = await request(app)
+    .put("/api/product/" + firstProduct._id)
+    .send({ name: "updatedName", description: "updated description" });
+  expect(res.statusCode).toBe(201);
+  expect(res.body.name).toBe("updatedName");
+});
+
+it("should return 404 on PUT /api/product", async () => {
+  const res = await request(app)
+    .put("/api/product/" + "671f39cf79674e583db5f4ae")
+    .send({ name: "updatedName", description: "updated description" });
+  expect(res.statusCode).toBe(404);
+});
