@@ -14,7 +14,10 @@ mongoose.connect(process.env.MONGODB_URL);
 
 app.use(express.json());
 app.use("/api/product", productRouter);
+app.use(function (err, req, res, next) {
+  res.status(500).json({ message: err.message });
+});
 app.listen(PORT, HOST);
-console.log(`Running on http://${HOST}:${PORT}`);
+//console.log(`Running on http://${HOST}:${PORT}`);
 
 module.exports = app;

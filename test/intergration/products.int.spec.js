@@ -23,5 +23,8 @@ it("should return 500 on /api/products", async () => {
   expect(response.statusCode).toBe(500);
 
   console.log(response.body);
-  //expect(response.body).toStrictEqual({ message: })
+  expect(response.body).toStrictEqual({
+    message:
+      "Product validation failed: description: Path `description` is required.",
+  });
 });
