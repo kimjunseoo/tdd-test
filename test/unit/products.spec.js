@@ -6,6 +6,7 @@ productModel.create = jest.fn();
 productModel.find = jest.fn();
 productModel.findById = jest.fn();
 productModel.findByIdAndUpdate = jest.fn();
+productModel.deleteOne = jest.fn();
 
 const newProduct = {
   name: "Glove",
@@ -178,5 +179,16 @@ describe("Product Controller Update", () => {
     productModel.findByIdAndUpdate.mockReturnValue(rejectPromise);
     await productController.updateProduct(req, res, next);
     expect(next).toHaveBeenCalledWith(errorMessage);
+  });
+});
+
+describe("Product Controller Delete", () => {
+  it("should have a deleteProduct func", () => {
+    expect(typeof productController.deleteProduct).toBe("function");
+  });
+  it("should call productModel.deleteOne", async () => {
+    req.params.productId = "671e321186ccdbaf7270dee9";
+    await productController.deleteProduct(req, res, next);
+    expect(productModel.deleteOne).toBeCalledWith(req.params.productId);
   });
 });

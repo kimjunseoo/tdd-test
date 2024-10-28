@@ -55,3 +55,7 @@ exports.updateProduct = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.deleteProduct = async (req, res, next) => {
+  await productModel.deleteOne(req.params.productId);
+};
