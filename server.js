@@ -16,3 +16,5 @@ app.use(express.json());
 app.use("/api/product", productRouter);
 app.listen(PORT, HOST);
 console.log(`Running on http://${HOST}:${PORT}`);
+
+module.exports = app;
